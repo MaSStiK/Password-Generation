@@ -13,6 +13,8 @@ CONST_LENGTH = 4
 if PASSWORD_LENGTH <= 0:
     PASSWORD_LENGTH = CONST_LENGTH
 
+print(f'Приложение версии 0.0.1')
+
 print(f"Доступно символов: {len(SYMBOLS)}\nВозможных вариантов: {len(SYMBOLS) ** PASSWORD_LENGTH}")
 
 password = gen_password(SYMBOLS, PASSWORD_LENGTH)
