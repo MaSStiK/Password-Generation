@@ -1,4 +1,6 @@
 import random
+import datatime
+import os
 
 def gen_password(array, length):
     password = ""
@@ -20,7 +22,16 @@ print(f"Доступно символов: {len(SYMBOLS)}\nВозможных в
 password = gen_password(SYMBOLS, PASSWORD_LENGTH)
 print(f"Сгенерированый пароль: {password}")
 
-with(open("password.txt", "a")) as file:
+replace_symbols = ["-", ":", ".", " "]
+text_time = str(datatime.datatime.now)
+
+if not os.path.exists("password"):
+    os.mkdir("password")
+
+for i in replace_symbols:
+    text_time.replace(i, "_")
+
+with(open(f"{text_time}.txt", "a")) as file:
     file.write(f"{password}\n")
 
 input("Нажмите enter что бы закрыть приложение...")
