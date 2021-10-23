@@ -22,3 +22,5 @@ print(f"Сгенерированый пароль: {password}")
 
 with(open("password.txt", "a")) as file:
     file.write(f"{password}\n")
+
+input("Нажмите enter что бы закрыть приложение...")
