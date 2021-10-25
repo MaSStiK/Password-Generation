@@ -6,7 +6,7 @@ pip list
 
 Коммит:
 ```bash
-git commit -a -m "New version 0.0.0"
+git commit -a -m "New version v0.0.0"
 ```
 
 Указать версию сборки:
