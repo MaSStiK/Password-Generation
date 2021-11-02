@@ -1,37 +1,71 @@
-import random
 import datetime
 import os
+from Password import Password
 
-def gen_password(array, length):
-    password = ""
-    for _ in range(0, length):
-        password += random.choice(array)
-    return password
+from rich import print, box
+from rich.layout import Layout
+from rich.console import Console, Group
+from rich.panel import Panel
+from rich.text import Text
 
-SYMBOLS = list("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$*&")
-PASSWORD_LENGTH = int(input("Введите длину пароля: "))
-CONST_LENGTH = 4
+Password_Generator = Password(input("Введите блину пароля: "))
 
-if PASSWORD_LENGTH <= 0:
-    PASSWORD_LENGTH = CONST_LENGTH
+# print(f"""Приложение версии: {Password_Generator.VERSION}
+# Длина пароля: {Password_Generator.length}
+# Доступно символов: {len(Password_Generator.SYMBOLS)}
+# Возможных вариантов: {Password_Generator.variants}""")
 
-print(f'Приложение версии 0.0.3')
+password = Password_Generator.generate()
+# print(f"Сгенерированый пароль: {password}")
 
-print(f"Доступно символов: {len(SYMBOLS)}\nВозможных вариантов: {len(SYMBOLS) ** PASSWORD_LENGTH}")
-
-password = gen_password(SYMBOLS, PASSWORD_LENGTH)
-print(f"Сгенерированый пароль: {password}")
-
-replace_symbols = ["-", ":", ".", " "]
-text_time = str(datetime.datetime.now())
-
-if not os.path.exists("password"):
-    os.mkdir("password")
-
+replace_symbols = ["-", ":", ".", " "]  # Символы которые надо заменить
+text_time = str(datetime.datetime.now())  # Текущее время
 for i in replace_symbols:
     text_time = text_time.replace(i, "_")
 
-with(open(f"password/{text_time}.txt", "a")) as file:
+if not os.path.exists("passwords"):  # Создаем папку если ее еще нету
+    os.mkdir("passwords")
+with(open(f"passwords/{text_time}.txt", "a")) as file:  # Сохраняем
     file.write(f"{password}\n")
+
+console = Console()
+Layout = Layout(name="info")
+
+p_length = Text.from_markup(
+    f"Длина пароля: {Password_Generator.length}",
+    style="bright_green", justify="center"
+)
+
+p_symbols_count = Text.from_markup(
+    f"Доступно символов: {len(Password_Generator.SYMBOLS)}",
+    style="bright_green", justify="center"
+)
+
+p_variants = Text.from_markup(
+    f"Возможных вариантов: {Password_Generator.variants}",
+    style="bright_green", justify="center"
+)
+
+p_password = Text.from_markup(
+    f"Сгенерированый пароль: {password}",
+    style="bright_green", justify="center"
+)
+
+Layout.update(
+    Panel(
+        Group(
+            p_length,
+            p_symbols_count,
+            p_variants,
+            p_password
+        ),
+        box=box.ROUNDED,
+        title="Password Generator",
+        subtitle=f"Version - {Password_Generator.VERSION}",
+        border_style="bright_blue"
+    )
+)
+
+console.print(Layout)
 
 input("Нажмите enter что бы закрыть приложение...")

@@ -19,3 +19,14 @@ git tag v0.0.0
 git push
 git push origin --tags
 ```
+
+[Flask 2.0.2](https://pypi.org/project/Flask/)
+```bash
+pip install Flask
+```
+
+[rich 10.12.0](https://pypi.org/project/rich/), 
+[rich api](https://rich.readthedocs.io/en/latest/)
+```bash
+pip install rich
+```
