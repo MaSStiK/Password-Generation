@@ -22,3 +22,12 @@ class Password:
         for _ in range(0, self.length):
             result += random.choice(self.SYMBOLS)
         return result
+
+    def get_symbol(self, number):
+        return self.SYMBOLS[number]
+
+    def get_symbols(self, array):
+        password = ""
+        for i in array:
+            password = password + str(self.get_symbol(i))
+        return password

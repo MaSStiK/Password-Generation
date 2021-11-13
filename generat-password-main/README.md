@@ -1,12 +1,12 @@
-# Password Generation
- Получить список всех используемых библиотек в проекте:
+# generat-password
+Получить список всех используемых библиотек в проекте:
 ```bash
 pip list
 ```
 
 Коммит:
 ```bash
-git commit -a -m "New version v0.0.0"
+git commit -a -m "New version 0.0.0"
 ```
 
 Указать версию сборки:
@@ -30,5 +30,3 @@ pip install Flask
 ```bash
 pip install rich
 ```
-
-pip install -r requirement.txt
