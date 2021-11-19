@@ -8,46 +8,47 @@ from rich.console import Console, Group
 from rich.panel import Panel
 from rich.text import Text
 
-Password_Generator = Password(input("Введите длину пароля: "))
 
-# print(f"""Приложение версии: {Password_Generator.VERSION}
-# Длина пароля: {Password_Generator.length}
-# Доступно символов: {len(Password_Generator.SYMBOLS)}
-# Возможных вариантов: {Password_Generator.variants}""")
+def filename():
+    replace_symbols = ["-", ":", ".", " "]  # Символы которые надо заменить
+    name = str(datetime.datetime.now())  # Текущее время
+    for i in replace_symbols:
+        name = name.replace(i, "_")
+    return name
 
-password = Password_Generator.generate()
-# print(f"Сгенерированый пароль: {password}")
 
-replace_symbols = ["-", ":", ".", " "]  # Символы которые надо заменить
-text_time = str(datetime.datetime.now())  # Текущее время
-for i in replace_symbols:
-    text_time = text_time.replace(i, "_")
+password = Password()
 
-if not os.path.exists("passwords"):  # Создаем папку если ее еще нету
-    os.mkdir("passwords")
-with(open(f"passwords/{text_time}.txt", "a")) as file:  # Сохраняем
-    file.write(f"{password}\n")
+password_length = input("Введите длину пароля: ")
+pin_code = input("Введите PINCODE: ")
+
+password.generate(password_length, pin_code)
 
 console = Console()
 Layout = Layout(name="info")
 
 p_length = Text.from_markup(
-    f"Длина пароля: {Password_Generator.length}",
+    f"Длина пароля: {password.length}",
     style="bright_green", justify="center"
 )
 
 p_symbols_count = Text.from_markup(
-    f"Доступно символов: {len(Password_Generator.SYMBOLS)}",
+    f"Доступно символов: {len(password.SYMBOLS)}",
     style="bright_green", justify="center"
 )
 
 p_variants = Text.from_markup(
-    f"Возможных вариантов: {Password_Generator.variants}",
+    f"Возможных вариантов: {password.variants}",
     style="bright_green", justify="center"
 )
 
 p_password = Text.from_markup(
-    f"Сгенерированый пароль: {password}",
+    f"Сгенерированый пароль: {password.password}",
+    style="bright_green", justify="center"
+)
+
+p_check_summa = Text.from_markup(
+    f"Ключ пароля: {password.check_summa}",
     style="bright_green", justify="center"
 )
 
@@ -57,15 +58,21 @@ Layout.update(
             p_length,
             p_symbols_count,
             p_variants,
-            p_password
+            p_password,
+            p_check_summa
         ),
         box=box.ROUNDED,
         title="Password Generator",
-        subtitle=f"Version - {Password_Generator.VERSION}",
+        subtitle=f"Version - {password.VERSION}",
         border_style="bright_blue"
     )
 )
 
 console.print(Layout)
+
+if not os.path.exists("passwords"):  # Создаем папку если ее еще нету
+    os.mkdir("passwords")
+with(open(f"passwords/{filename()}.txt", "a")) as file:  # Сохраняем
+    file.write(f"{password.password}\n{password.pin_code}\n{password.check_summa}")
 
 input("Нажмите enter что бы закрыть приложение...")

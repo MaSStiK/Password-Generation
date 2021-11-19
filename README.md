@@ -31,4 +31,8 @@ pip install Flask
 pip install rich
 ```
 
+```bash
+pip install typer
+```
+
 pip install -r requirement.txt

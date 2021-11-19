@@ -2,8 +2,10 @@ from Password import Password
 import typer
 import time
 import os
+#python encoder.py 2 0000 a9b0ea81af1de60a66cc8adc5fe85058ee784724df7f7327ef6b5cdd17dbadc30092a9a788c262be7bc004bae1d474cda2afbba9e375b59e89234634e13a03e2
 
 app = typer.Typer()
+
 
 @app.command()
 def random(count_symbols: int, pin_code: str, check_summa: str):
@@ -17,7 +19,7 @@ def random(count_symbols: int, pin_code: str, check_summa: str):
     while True:
         count_random += 1
         password = Password()
-        password.generation(int(count_symbols), pin_code)
+        password.generate(int(count_symbols), pin_code)
 
         typer.echo(f'Проверяем пароль: {password.password}')
 

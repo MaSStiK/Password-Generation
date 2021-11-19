@@ -1,55 +1,45 @@
 from Password import Password
 import time
 
-Password_Generator = Password(input("Введите длину пароля: "))
-password = Password_Generator.generate()
-print(password)
+password_length = input("Введите длину пароля: ")
+pin_code = input("Введите PINCODE: ")
+password = Password()
+password.generate(password_length, pin_code)
+print(password.password)
+print(password.pin_code)
+print(password.check_summa)
 
-password_array = [0 for i in range(0, len(Password_Generator.SYMBOLS))]
+max_length = len(password.SYMBOLS)
+
+brute = []
+for _ in range(0, password.length):
+    brute.append(0)
 
 
-def next_array(array):
-    array_count = [0 for i in range(0, len(array))]
-    lenth = len(Password_Generator.SYMBOLS)
-
-    if len(array) == 0:
-        return None
-
+def return_array(array):
+    i = 0
+    if array[i] != max_length - 1:
+        array[i] += 1
     else:
-        if array[0] == lenth - 1:
-            array[0] = 0
-            plus = True
-
-            if len(array) > 1:
-                for i in array_count:
-                    if i > 0:
-                        if plus:
-                            if array[i] < lenth - 1:
-                                array[i] = array[i] + 1
-                                break
-
-                            elif array[i] == lenth - 1:
-                                array[i] = 0
-                                if i == len(array) - 1:
-                                    array.append(0)
-                                    break
-            else:
-                array.append(0)
-        elif array[0] < lenth - 1:
-            array[0] = array[0] + 1
+        array[i] = 0
+        try:
+            array[i + 1] += 1
+        except:
+            pass
     return array
 
 
-print(len(Password_Generator.SYMBOLS))
-print(next_array(password_array))
+for i in range(0, 10000):
+    brute = return_array(brute)
+    print(brute)
 
-
-start = time.time()
-variants = 0
-while True:
-    variants += 1
-    new_password_array = next_array(password_array)
-    password_string = Password_Generator.get_symbols(password_array)
-    print(password_string)
-
-    #Добавить проверху хеша
+# for i in range(0, len(brute)):
+#     element = i  # Какой по счету элемент в массиве
+#     number = 0  # Изначально считаем от 0 + 1
+#
+#     while number != max_length - 1:
+#         number += 1
+#         brute[i] = number
+#
+#     for l in range(0, i):
+#         brute[l] = 0
