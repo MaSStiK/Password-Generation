@@ -31,8 +31,11 @@ pip install Flask
 pip install rich
 ```
 
+[typer](https://typer.tiangolo.com)
 ```bash
 pip install typer
 ```
 
+```bash
 pip install -r requirement.txt
+```
